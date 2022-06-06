@@ -149,7 +149,7 @@ class Lexer:
 		num_str = ''
 		while not self.current() is None:
 			if not self.current().isnumeric() and not self.current() == '.':
-				break;
+				break
 			if self.current() == '.':
 				dots += 1
 			num_str += self.current()
