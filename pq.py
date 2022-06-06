@@ -1,5 +1,7 @@
 import enum, sys
 
+Position = (int, int)
+
 class TokenType(enum.Enum):
 	# Parenthesis
 	LeftParen = 0
@@ -51,7 +53,7 @@ class Lexer:
 		self.col = 0
 		self.row = 0
 
-	def error(self, reason, pos):
+	def error(self, reason: str, pos: Position):
 		raise Exception(f"{reason} (_:{pos[0]}:{pos[1]})")
 		
 	# Data Functions
@@ -63,7 +65,7 @@ class Lexer:
 		try: return self.src[self.cursor + num]
 		except: return None
 
-	def advance(self, amount=1):
+	def advance(self, amount: int = 1):
 		self.col += amount
 		self.cursor += amount
 
