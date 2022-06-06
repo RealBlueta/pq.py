@@ -81,7 +81,7 @@ class Lexer:
 		self.cursor += 1
 		
 	def lex_binary_operator(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		type = None
 		if self.current() == '+': type = TokenType.BinPlus
 		elif self.current() == '-': type = TokenType.BinMinus
@@ -94,12 +94,12 @@ class Lexer:
 		tokens.append((type, pos))
 
 	def lex_binary_equals(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		self.advance(2)
 		tokens.append((TokenType.BinEquals, pos))
 
 	def lex_brackets(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		type = None
 		if self.current() == '{': type = TokenType.LeftCurlyBracket
 		elif self.current() == '}': type = TokenType.RightCurlyBracket
@@ -111,7 +111,7 @@ class Lexer:
 		tokens.append((type, pos))
 
 	def lex_etc(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		type = None
 		if self.current() == '.': type = TokenType.Accessor
 		elif self.current() == ',': type = TokenType.Seperator
@@ -121,7 +121,7 @@ class Lexer:
 		tokens.append((type, pos))
 	
 	def lex_comment(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		self.advance(2) # skip both /
 		comment = ''
 		while not self.current() is None and not self.current() == '\n':
@@ -130,7 +130,7 @@ class Lexer:
 		tokens.append((TokenType.Comment, pos, comment.lstrip()))
 
 	def lex_string(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		string = ''
 		self.advance(2) # skip " '
 		while not self.current() is None and not self.current() in "\"'":
@@ -142,7 +142,7 @@ class Lexer:
 		tokens.append((TokenType.String, pos, string))
 
 	def lex_keyword(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		keyword = ''
 		while not self.current() is None:
 			# TODO: Find a better way to do this, this is just straight hacky
@@ -156,7 +156,7 @@ class Lexer:
 		tokens.append((type, pos, keyword))
 
 	def lex_numbers(self, tokens):
-		pos = (self.col, self.row)
+		pos = (self.row, self.col)
 		dots = 0
 		num_str = ''
 		while not self.current() is None:
@@ -230,8 +230,8 @@ class Lexer:
 				self.lex_comment(tokens)
 				continue
 
-			self.error(f'Unknown token \'{self.current()}\'', (self.col, self.row))
-		tokens.append((TokenType.EOF, (self.col, self.row)))
+			self.error(f'Unknown token \'{self.current()}\'', (self.row, self.col))
+		tokens.append((TokenType.EOF, (self.row, self.col)))
 		return tokens
 
 # Main Code :)
