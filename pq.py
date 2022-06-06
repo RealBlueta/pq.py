@@ -41,11 +41,11 @@ class Lexer:
 		raise Exception(f"{reason} (_:{pos[0]}:{pos[1]})")
 		
 	# Data Functions
-	def current(self) -> str | None:
+	def current(self) -> str or None:
 		try: return self.src[self.cursor]
 		except: return None
 
-	def peek(self, num: int) -> str | None:
+	def peek(self, num: int) -> str or None:
 		try: return self.src[self.cursor + num]
 		except: return None
 
