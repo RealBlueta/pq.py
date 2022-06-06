@@ -18,16 +18,18 @@ class TokenType(enum.Enum):
 	BinGreaterThan = 11
 	BinLessThan = 12
 	BinEquals = 13
+	# _?
+	Semicolon = 14
 	# ETC
-	Accessor = 14
-	Seperator = 15
-	Assign = 16
-	Declerator = 17
-	Keyword = 18
-	Number = 19
-	String = 20
-	Comment = 21
-	EOF = 22
+	Accessor = 15
+	Seperator = 16
+	Assign = 17
+	Declerator = 18
+	Keyword = 19
+	Number = 20
+	String = 21
+	Comment = 22
+	EOF = 23
 
 # Lexer
 class Lexer:
@@ -102,6 +104,7 @@ class Lexer:
 		if self.current() == '.': type = TokenType.Accessor
 		elif self.current() == ',': type = TokenType.Seperator
 		elif self.current() == '=': type = TokenType.Assign
+		elif self.current() == ';': type = TokenType.Semicolon
 		self.advance()
 		tokens.append((type, pos))
 	
@@ -187,8 +190,8 @@ class Lexer:
 				self.lex_brackets(tokens)
 				continue
 
-			# Brackets
-			if self.current() in '.,=':
+			# ETC
+			if self.current() in '.,=;':
 				self.lex_etc(tokens)
 				continue
 
