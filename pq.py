@@ -132,7 +132,10 @@ class Lexer:
 	def lex_keyword(self, tokens):
 		pos = (self.col, self.row)
 		keyword = ''
-		while not self.current() is None and self.current().isalpha():
+		while not self.current() is None:
+			# TODO: Find a better way to do this, this is just straight hacky
+			if self.current() in ' \n\t{}[]();+-*%/.,':
+				break
 			keyword += self.current()
 			self.advance()
 		type = TokenType.Keyword
