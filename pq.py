@@ -1,32 +1,33 @@
 import enum, sys
 
-class BinaryOperatorType(enum.Enum):
-	Plus = 0
-	Minus = 1
-	Multiply = 2
-	Divide = 3
-	Percent = 4
-	GreaterThan = 5
-	LessThan = 6
-	Equals = 7
-
 class TokenType(enum.Enum):
+	# Parenthesis
 	LeftParen = 0
 	RightParen = 1
+	# Brackets
 	LeftCurlyBracket = 2
 	RightCurlyBracket = 3
 	LeftAngleBracket = 4
 	RightAngleBracket = 5
-	BinaryOperator = 6
-	Accessor = 7
-	Seperator = 8
-	Assign = 9
-	Declerator = 10
-	Keyword = 11
-	Number = 12
-	String = 13
-	Comment = 14
-	EOF = 15-
+	# BinaryOperators
+	BinPlus = 6
+	BinMinus = 7
+	BinMultiply = 8
+	BinDivide = 9
+	BinPercent = 10
+	BinGreaterThan = 11
+	BinLessThan = 12
+	BinEquals = 13
+	# ETC
+	Accessor = 14
+	Seperator = 15
+	Assign = 16
+	Declerator = 17
+	Keyword = 18
+	Number = 19
+	String = 20
+	Comment = 21
+	EOF = 22
 
 # Lexer
 class Lexer:
@@ -72,20 +73,20 @@ class Lexer:
 	def lex_binary_operator(self, tokens):
 		pos = (self.col, self.row)
 		type = None
-		if self.current() == '+': type = BinaryOperatorType.Plus
-		elif self.current() == '-': type = BinaryOperatorType.Minus
-		elif self.current() == '/': type = BinaryOperatorType.Divide
-		elif self.current() == '*': type = BinaryOperatorType.Multiply			
-		elif self.current() == '%': type = BinaryOperatorType.Percent
-		elif self.current() == '>': type = BinaryOperatorType.GreaterThan			
-		elif self.current() == '<': type = BinaryOperatorType.LessThan
+		if self.current() == '+': type = TokenType.BinPlus
+		elif self.current() == '-': type = TokenType.BinMinus
+		elif self.current() == '/': type = TokenType.BinDivide
+		elif self.current() == '*': type = TokenType.BinMultiply			
+		elif self.current() == '%': type = TokenType.BinPercent
+		elif self.current() == '>': type = TokenType.BinGreaterThan			
+		elif self.current() == '<': type = TokenType.BinLessThan
 		self.advance()
 		tokens.append((type, pos))
 
 	def lex_binary_equals(self, tokens):
 		pos = (self.col, self.row)
 		self.advance(2)
-		tokens.append((BinaryOperatorType.Equals, pos))
+		tokens.append((TokenType.BinEquals, pos))
 
 	def lex_brackets(self, tokens):
 		pos = (self.col, self.row)
