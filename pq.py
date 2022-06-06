@@ -30,7 +30,7 @@ class TokenType(enum.Enum):
 	String = 21
 	Comment = 22
 	EOF = 23
-
+	# Functions
 	def is_binary_op(self):
 		return self in [	
 			self.BinPlus,
