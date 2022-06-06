@@ -112,7 +112,7 @@ class Lexer:
 	def lex_binary_equals(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		self.advance(2)
-		tokens.append(Token(type=TokenType.BinEquals, position=pos))
+		tokens.append(Token(TokenType.BinEquals, pos))
 
 	def lex_brackets(self, tokens: list[Token]):
 		pos = (self.row, self.col)
@@ -143,7 +143,7 @@ class Lexer:
 		while not self.current() is None and not self.current() == '\n':
 			comment += self.current()
 			self.advance()
-		tokens.append(Token(type=TokenType.Comment, position=pos, value=comment.lstrip()))
+		tokens.append(Token(TokenType.Comment, pos, comment.lstrip()))
 
 	def lex_string(self, tokens: list[Token]):
 		pos = (self.row, self.col)
@@ -155,7 +155,7 @@ class Lexer:
 		if self.current() is None: 
 			self.error("Unclosed string literal", pos)
 		self.advance(2) # skip " '
-		tokens.append(Token(type=TokenType.String, position=pos, value=string))
+		tokens.append(Token(TokenType.String, pos, string))
 
 	def lex_keyword(self, tokens: list[Token]):
 		pos = (self.row, self.col)
@@ -169,7 +169,7 @@ class Lexer:
 		type = TokenType.Keyword
 		if keyword == 'let': type = TokenType.Declerator
 		elif keyword == 'function': type = TokenType.Declerator
-		tokens.append(Token(type, position=pos, value=keyword))
+		tokens.append(Token(type, pos, keyword))
 
 	def lex_numbers(self, tokens: list[Token]):
 		pos = (self.row, self.col)
@@ -187,7 +187,7 @@ class Lexer:
 		num = 0
 		if dots > 0: num = float(num_str)
 		else: num = int(num_str)
-		tokens.append(Token(type=TokenType.Number, position=pos, value=num))
+		tokens.append(Token(TokenType.Number, pos, num))
 		
 	def run(self):
 		tokens = []
@@ -247,7 +247,7 @@ class Lexer:
 				continue
 
 			self.error(f'Unknown token \'{self.current()}\'', (self.row, self.col))
-		tokens.append(Token(type=TokenType.EOF, position=(self.row, self.col)))
+		tokens.append(Token(TokenType.EOF, (self.row, self.col)))
 		return tokens
 
 # Main Code :)
