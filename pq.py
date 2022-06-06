@@ -45,6 +45,20 @@ class TokenType(enum.Enum):
 			self.BinEquals
 		]
 
+class Token():
+	def __init__(self, type: TokenType, position: Position, value: str or int = None) -> None:
+		self.type = type
+		self.position = position
+		self.value = value
+
+	def __repr__(self) -> str:
+		str = f"{self.type}".ljust(28)
+		str += f"{self.position}".ljust(10)
+		if not self.value is None:
+			if isinstance(self.value, int): str += f"{self.value}"
+			else: str += f"'{self.value}'"
+		return str
+
 # Lexer
 class Lexer:
 	def __init__(self, src: str):
@@ -82,7 +96,7 @@ class Lexer:
 		self.col += 4
 		self.cursor += 1
 		
-	def lex_binary_operator(self, tokens):
+	def lex_binary_operator(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		type = None
 		if self.current() == '+': type = TokenType.BinPlus
@@ -93,14 +107,14 @@ class Lexer:
 		elif self.current() == '>': type = TokenType.BinGreaterThan			
 		elif self.current() == '<': type = TokenType.BinLessThan
 		self.advance()
-		tokens.append((type, pos))
+		tokens.append(Token(type, pos))
 
-	def lex_binary_equals(self, tokens):
+	def lex_binary_equals(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		self.advance(2)
-		tokens.append((TokenType.BinEquals, pos))
+		tokens.append(Token(type=TokenType.BinEquals, position=pos))
 
-	def lex_brackets(self, tokens):
+	def lex_brackets(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		type = None
 		if self.current() == '{': type = TokenType.LeftCurlyBracket
@@ -110,9 +124,9 @@ class Lexer:
 		elif self.current() == '(': type = TokenType.LeftParen
 		elif self.current() == ')': type = TokenType.RightParen
 		self.advance()
-		tokens.append((type, pos))
+		tokens.append(Token(type, pos))
 
-	def lex_etc(self, tokens):
+	def lex_etc(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		type = None
 		if self.current() == '.': type = TokenType.Accessor
@@ -120,18 +134,18 @@ class Lexer:
 		elif self.current() == '=': type = TokenType.Assign
 		elif self.current() == ';': type = TokenType.Semicolon
 		self.advance()
-		tokens.append((type, pos))
+		tokens.append(Token(type, pos))
 	
-	def lex_comment(self, tokens):
+	def lex_comment(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		self.advance(2) # skip both /
 		comment = ''
 		while not self.current() is None and not self.current() == '\n':
 			comment += self.current()
 			self.advance()
-		tokens.append((TokenType.Comment, pos, comment.lstrip()))
+		tokens.append(Token(type=TokenType.Comment, position=pos, value=comment.lstrip()))
 
-	def lex_string(self, tokens):
+	def lex_string(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		string = ''
 		self.advance(2) # skip " '
@@ -141,9 +155,9 @@ class Lexer:
 		if self.current() is None: 
 			self.error("Unclosed string literal", pos)
 		self.advance(2) # skip " '
-		tokens.append((TokenType.String, pos, string))
+		tokens.append(Token(type=TokenType.String, position=pos, value=string))
 
-	def lex_keyword(self, tokens):
+	def lex_keyword(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		keyword = ''
 		while not self.current() is None:
@@ -155,9 +169,9 @@ class Lexer:
 		type = TokenType.Keyword
 		if keyword == 'let': type = TokenType.Declerator
 		elif keyword == 'function': type = TokenType.Declerator
-		tokens.append((type, pos, keyword))
+		tokens.append(Token(type, position=pos, value=keyword))
 
-	def lex_numbers(self, tokens):
+	def lex_numbers(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		dots = 0
 		num_str = ''
@@ -173,7 +187,7 @@ class Lexer:
 		num = 0
 		if dots > 0: num = float(num_str)
 		else: num = int(num_str)
-		tokens.append((TokenType.Number, pos, num))
+		tokens.append(Token(type=TokenType.Number, position=pos, value=num))
 		
 	def run(self):
 		tokens = []
@@ -233,7 +247,7 @@ class Lexer:
 				continue
 
 			self.error(f'Unknown token \'{self.current()}\'', (self.row, self.col))
-		tokens.append((TokenType.EOF, (self.row, self.col)))
+		tokens.append(Token(type=TokenType.EOF, position=(self.row, self.col)))
 		return tokens
 
 # Main Code :)
