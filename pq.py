@@ -31,6 +31,18 @@ class TokenType(enum.Enum):
 	Comment = 22
 	EOF = 23
 
+	def is_binary_op(self):
+		return self in [	
+			self.BinPlus,
+			self.BinMinus,
+			self.BinMultiply,
+			self.BinDivide,
+			self.BinPercent,
+			self.BinGreaterThan,
+			self.BinLessThan,
+			self.BinEquals
+		]
+
 # Lexer
 class Lexer:
 	def __init__(self, src: str):
