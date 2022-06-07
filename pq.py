@@ -66,7 +66,7 @@ class Lexer:
 		self.row = 0
 
 	def error(self, reason: str, pos: Position):
-		raise Exception(f"{reason} (_:{pos[0]}:{pos[1]})")
+		raise Exception(f"{reason} (_:{pos[1]}:{pos[0]})")
 		
 	# Data Functions
 	def current(self) -> str or None:
