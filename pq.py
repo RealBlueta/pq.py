@@ -20,18 +20,16 @@ class TokenType(enum.Enum):
 	BinGreaterThan = 11
 	BinLessThan = 12
 	BinEquals = 13
-	# _?
-	Semicolon = 14
 	# ETC
-	Accessor = 15
-	Seperator = 16
-	Assign = 17
-	Declerator = 18
-	Keyword = 19
-	Number = 20
-	String = 21
+	Accessor = 14
+	Seperator = 15
+	Assign = 16
+	Declerator = 17
+	Keyword = 18
+	Number = 19
+	String = 20
 	Comment = 22
-	EOF = 23
+	EOF = 22
 	# Functions
 	def is_binary_op(self):
 		return self in [	
@@ -130,9 +128,8 @@ class Lexer:
 		pos = (self.row, self.col)
 		type = None
 		if self.current() == '.': type = TokenType.Accessor
-		elif self.current() == ',': type = TokenType.Seperator
+		elif self.current() in ',;': type = TokenType.Seperator
 		elif self.current() == '=': type = TokenType.Assign
-		elif self.current() == ';': type = TokenType.Semicolon
 		self.advance()
 		tokens.append(Token(type, pos))
 	
