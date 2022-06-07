@@ -189,7 +189,7 @@ class Lexer:
 		else: num = int(num_str)
 		tokens.append(Token(TokenType.Number, pos, num))
 		
-	def run(self):
+	def run(self) -> list[Token]:
 		tokens = []
 		while not self.current() is None:
 			# Spaces
