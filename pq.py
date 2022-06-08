@@ -28,7 +28,7 @@ class TokenType(enum.Enum):
 	Keyword = 18
 	Number = 19
 	String = 20
-	Comment = 22
+	Comment = 21
 	EOF = 22
 	# Functions
 	def is_binary_op(self):
