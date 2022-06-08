@@ -2,6 +2,7 @@ import enum, sys
 
 Position = (int, int)
 
+# add _ & ^ $ # @ !
 class TokenType(enum.Enum):
 	# Parenthesis
 	LeftParen = 0
@@ -23,12 +24,19 @@ class TokenType(enum.Enum):
 	Comma = 15
 	Equals = 16
 	Semicolon = 17
-	Declerator = 18
-	Keyword = 19
-	Number = 20
-	String = 21
-	Comment = 22
-	EOF = 23
+	Underscore = 18
+	And = 19
+	Caret = 20
+	Dollar = 21
+	Hashtag = 22
+	At = 23
+	Exclamation = 24
+	Declerator = 25
+	Keyword = 26
+	Number = 27
+	String = 28
+	Comment = 29
+	EOF = 30
 
 	def is_binary_op(self):
 		return self in [	
@@ -130,6 +138,13 @@ class Lexer:
 		elif self.current() in ',': type = TokenType.Comma
 		elif self.current() in ';': type = TokenType.Semicolon
 		elif self.current() == '=': type = TokenType.Equals
+		elif self.current() in '_': type = TokenType.Underscore
+		elif self.current() == '&': type = TokenType.And
+		elif self.current() in '^': type = TokenType.Caret
+		elif self.current() == '$': type = TokenType.Dollar
+		elif self.current() == '#': type = TokenType.Hashtag
+		elif self.current() == '@': type = TokenType.At
+		elif self.current() == '!': type = TokenType.Exclamation
 		self.advance()
 		tokens.append(Token(type, pos))
 	
@@ -219,7 +234,7 @@ class Lexer:
 				continue
 
 			# ETC
-			if self.current() in '.,=;':
+			if self.current() in '.,=;_&^$#@!':
 				self.lex_etc(tokens)
 				continue
 
