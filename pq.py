@@ -11,36 +11,35 @@ class TokenType(enum.Enum):
 	RightCurlyBracket = 3
 	LeftAngleBracket = 4
 	RightAngleBracket = 5
-	# BinaryOperators
-	BinPlus = 6
-	BinMinus = 7
-	BinMultiply = 8
-	BinDivide = 9
-	BinPercent = 10
-	BinGreaterThan = 11
-	BinLessThan = 12
-	BinEquals = 13
-	# ETC
-	Accessor = 14
-	Seperator = 15
-	Assign = 16
-	Declerator = 17
-	Keyword = 18
-	Number = 19
-	String = 20
-	Comment = 21
-	EOF = 22
-	# Functions
+	Plus = 6
+	Minus = 7
+	Astrisk = 8
+	Backslash = 9
+	Percent = 10
+	GreaterThan = 11
+	LessThan = 12
+	DoubleEquals = 13
+	Period = 14
+	Comma = 15
+	Equals = 16
+	Semicolon = 17
+	Declerator = 18
+	Keyword = 19
+	Number = 20
+	String = 21
+	Comment = 22
+	EOF = 23
+
 	def is_binary_op(self):
 		return self in [	
-			self.BinPlus,
-			self.BinMinus,
-			self.BinMultiply,
-			self.BinDivide,
-			self.BinPercent,
-			self.BinGreaterThan,
-			self.BinLessThan,
-			self.BinEquals
+			self.Plus,
+			self.Minus,
+			self.Astrisk,
+			self.Backslash,
+			self.Percent,
+			self.GreaterThan,
+			self.LessThan,
+			self.DoubleEquals
 		]
 
 class Token():
@@ -97,20 +96,20 @@ class Lexer:
 	def lex_binary_operator(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		type = None
-		if self.current() == '+': type = TokenType.BinPlus
-		elif self.current() == '-': type = TokenType.BinMinus
-		elif self.current() == '/': type = TokenType.BinDivide
-		elif self.current() == '*': type = TokenType.BinMultiply			
-		elif self.current() == '%': type = TokenType.BinPercent
-		elif self.current() == '>': type = TokenType.BinGreaterThan			
-		elif self.current() == '<': type = TokenType.BinLessThan
+		if self.current() == '+': type = TokenType.Plus
+		elif self.current() == '-': type = TokenType.Minus
+		elif self.current() == '/': type = TokenType.Backslash
+		elif self.current() == '*': type = TokenType.Astrisk			
+		elif self.current() == '%': type = TokenType.Percent
+		elif self.current() == '>': type = TokenType.GreaterThan			
+		elif self.current() == '<': type = TokenType.LessThan
 		self.advance()
 		tokens.append(Token(type, pos))
 
 	def lex_binary_equals(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		self.advance(2)
-		tokens.append(Token(TokenType.BinEquals, pos))
+		tokens.append(Token(TokenType.DoubleEquals, pos))
 
 	def lex_brackets(self, tokens: list[Token]):
 		pos = (self.row, self.col)
@@ -127,9 +126,10 @@ class Lexer:
 	def lex_etc(self, tokens: list[Token]):
 		pos = (self.row, self.col)
 		type = None
-		if self.current() == '.': type = TokenType.Accessor
-		elif self.current() in ',;': type = TokenType.Seperator
-		elif self.current() == '=': type = TokenType.Assign
+		if self.current() == '.': type = TokenType.Period
+		elif self.current() in ',': type = TokenType.Comma
+		elif self.current() in ';': type = TokenType.Semicolon
+		elif self.current() == '=': type = TokenType.Equals
 		self.advance()
 		tokens.append(Token(type, pos))
 	
