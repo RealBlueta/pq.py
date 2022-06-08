@@ -1,5 +1,5 @@
-# pq.py
-PQ is a langauge written in Python. It is a W.I.P.
+# pq.js
+PQ is a langauge written in Python (ported to Javascript). It is a W.I.P.
 
 # Usage
-> python pq.py [file-name].pq
+> node . [file-name].pq
