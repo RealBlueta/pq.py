@@ -14,7 +14,7 @@ class TokenType(enum.Enum):
 	RightAngleBracket = 5
 	Plus = 6
 	Minus = 7
-	Astrisk = 8
+	Asterisk = 8
 	Backslash = 9
 	Percent = 10
 	GreaterThan = 11
@@ -42,7 +42,7 @@ class TokenType(enum.Enum):
 		return self in [	
 			self.Plus,
 			self.Minus,
-			self.Astrisk,
+			self.Asterisk,
 			self.Backslash,
 			self.Percent,
 			self.GreaterThan,
@@ -107,7 +107,7 @@ class Lexer:
 		if self.current() == '+': type = TokenType.Plus
 		elif self.current() == '-': type = TokenType.Minus
 		elif self.current() == '/': type = TokenType.Backslash
-		elif self.current() == '*': type = TokenType.Astrisk			
+		elif self.current() == '*': type = TokenType.Asterisk			
 		elif self.current() == '%': type = TokenType.Percent
 		elif self.current() == '>': type = TokenType.GreaterThan			
 		elif self.current() == '<': type = TokenType.LessThan
