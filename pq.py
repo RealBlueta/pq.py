@@ -1,4 +1,4 @@
-import enum, sys
+import enum, sys, inspect
 
 Position = (int, int)
 
@@ -72,7 +72,7 @@ class Lexer:
 		self.row = 0
 
 	def error(self, reason: str, pos: Position):
-		raise Exception(f"{reason} (_:{pos[1]}:{pos[0]})")
+		raise Exception(f"(Lexer::{inspect.getouterframes(inspect.currentframe(), 2)[1][3]}) {reason} (_:{pos[1]}:{pos[0]})")
 		
 	# Data Functions
 	def current(self) -> str or None:
