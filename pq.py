@@ -174,7 +174,7 @@ class Lexer:
 		keyword = ''
 		while not self.current() is None:
 			# TODO: Find a better way to do this, this is just straight hacky
-			if self.current() in ' \n\t{}[]();+-*%/.,':
+			if self.current() in ' \n\t{}[]();+-*%/.,=':
 				break
 			keyword += self.current()
 			self.advance()
