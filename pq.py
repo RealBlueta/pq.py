@@ -181,6 +181,8 @@ class Lexer:
 		type = TokenType.Identifier
 		if identifier == 'let': type = TokenType.Declerator
 		elif identifier == 'function': type = TokenType.Declerator
+		elif identifier == 'class': type = TokenType.Declerator
+		elif identifier == 'enum': type = TokenType.Declerator
 		tokens.append(Token(type, pos, identifier))
 
 	def lex_numbers(self, tokens: list[Token]):
