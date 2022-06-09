@@ -169,19 +169,19 @@ class Lexer:
 		self.advance(2) # skip " '
 		tokens.append(Token(TokenType.String, pos, string))
 
-	def lex_Identifier(self, tokens: list[Token]):
+	def lex_identifier(self, tokens: list[Token]):
 		pos = (self.row, self.col)
-		Identifier = ''
+		identifier = ''
 		while not self.current() is None:
 			# TODO: Find a better way to do this, this is just straight hacky
 			if self.current() in ' \n\t{}[]();+-*%/.,=':
 				break
-			Identifier += self.current()
+			identifier += self.current()
 			self.advance()
 		type = TokenType.Identifier
-		if Identifier == 'let': type = TokenType.Declerator
-		elif Identifier == 'function': type = TokenType.Declerator
-		tokens.append(Token(type, pos, Identifier))
+		if identifier == 'let': type = TokenType.Declerator
+		elif identifier == 'function': type = TokenType.Declerator
+		tokens.append(Token(type, pos, identifier))
 
 	def lex_numbers(self, tokens: list[Token]):
 		pos = (self.row, self.col)
@@ -240,7 +240,7 @@ class Lexer:
 
 			# Identifiers
 			if self.current().isalpha():
-				self.lex_Identifier(tokens)
+				self.lex_identifier(tokens)
 				continue
 				
 			# Numbers
