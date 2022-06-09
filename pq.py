@@ -2,7 +2,6 @@ import enum, sys
 
 Position = (int, int)
 
-# add _ & ^ $ # @ !
 class TokenType(enum.Enum):
 	# Parenthesis
 	LeftParen = 0
