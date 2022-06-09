@@ -32,7 +32,7 @@ class TokenType(enum.Enum):
 	At = 23
 	Exclamation = 24
 	Declerator = 25
-	Keyword = 26
+	Identifier = 26
 	Number = 27
 	String = 28
 	Comment = 29
@@ -169,19 +169,19 @@ class Lexer:
 		self.advance(2) # skip " '
 		tokens.append(Token(TokenType.String, pos, string))
 
-	def lex_keyword(self, tokens: list[Token]):
+	def lex_Identifier(self, tokens: list[Token]):
 		pos = (self.row, self.col)
-		keyword = ''
+		Identifier = ''
 		while not self.current() is None:
 			# TODO: Find a better way to do this, this is just straight hacky
 			if self.current() in ' \n\t{}[]();+-*%/.,=':
 				break
-			keyword += self.current()
+			Identifier += self.current()
 			self.advance()
-		type = TokenType.Keyword
-		if keyword == 'let': type = TokenType.Declerator
-		elif keyword == 'function': type = TokenType.Declerator
-		tokens.append(Token(type, pos, keyword))
+		type = TokenType.Identifier
+		if Identifier == 'let': type = TokenType.Declerator
+		elif Identifier == 'function': type = TokenType.Declerator
+		tokens.append(Token(type, pos, Identifier))
 
 	def lex_numbers(self, tokens: list[Token]):
 		pos = (self.row, self.col)
@@ -238,9 +238,9 @@ class Lexer:
 				self.lex_etc(tokens)
 				continue
 
-			# Keywords
+			# Identifiers
 			if self.current().isalpha():
-				self.lex_keyword(tokens)
+				self.lex_Identifier(tokens)
 				continue
 				
 			# Numbers
