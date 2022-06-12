@@ -2,6 +2,7 @@ import enum, sys, inspect
 
 Position = (int, int)
 
+# Lexer
 class TokenType(enum.Enum):
 	# Parenthesis
 	LeftParen = 0
@@ -62,7 +63,6 @@ class Token():
 			else: str += f"'{self.value}'"
 		return str
 
-# Lexer
 class Lexer:
 	def __init__(self, src: str):
 		self.src = src
