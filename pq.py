@@ -263,6 +263,15 @@ class Lexer:
 		tokens.append(Token(TokenType.EOF, (self.row, self.col)))
 		return tokens
 
+# AST
+class Parser:
+	def __init__(self):
+		pass
+
+	def run(self):
+		ast = []
+		return ast
+
 # Main Code :)
 def run(src: str):
 	tokens = Lexer(src).run()
