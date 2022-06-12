@@ -30,12 +30,11 @@ class TokenType(enum.Enum):
 	Hashtag = 22
 	At = 23
 	Exclamation = 24
-	Declerator = 25
-	Identifier = 26
-	Number = 27
-	String = 28
-	Comment = 29
-	EOF = 30
+	Identifier = 25
+	Number = 26
+	String = 27
+	Comment = 28
+	EOF = 29
 
 	def is_binary_op(self):
 		return self in [	
@@ -177,12 +176,7 @@ class Lexer:
 				break
 			identifier += self.current()
 			self.advance()
-		type = TokenType.Identifier
-		if identifier == 'let': type = TokenType.Declerator
-		elif identifier == 'function': type = TokenType.Declerator
-		elif identifier == 'class': type = TokenType.Declerator
-		elif identifier == 'enum': type = TokenType.Declerator
-		tokens.append(Token(type, pos, identifier))
+		tokens.append(Token(TokenType.Identifier, pos, identifier))
 
 	def lex_numbers(self, tokens: list[Token]):
 		pos = (self.row, self.col)
