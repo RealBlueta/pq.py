@@ -1,5 +1,3 @@
 # pq.py
-PQ is a langauge written in Python. It is a W.I.P.
 
-# Usage
-> python pq.py [file-name].pq
+## Moved to https://github.com/RealBlueta/pq.ts
